@@ -18,7 +18,7 @@ filter {
     mutate {
         copy => { "[@timestamp]" => "Timestamp"}
         convert => { "price" => "integer"}
-    }    
+    }
 }
 
 
