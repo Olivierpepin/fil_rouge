@@ -1,0 +1,45 @@
+input {
+    file {
+        path => "E:/fil_rouge/logstash/batch_excel/btc_historical_2021_12_12.csv"
+        start_position => beginning
+        sincedb_path => "NUL"
+    }
+}
+
+filter {
+    csv {
+        columns => ["Date","Price_Close","Price_High","Price_Low","Price_Open","Real_Volume","Circulating_Marketcap","Realized_Marketcap","Marketcap_Dominance"]
+        separator => ","
+        skip_header => "true"
+    }
+    date {
+        match => [ "Date", "yyyy-MM-dd" ]
+    }
+    mutate {
+        convert => { 
+            "Price_Close" => "float"
+            "Price_High" => "float"
+            "Price_Low" => "float"
+            "Price_Open" => "float"
+            "Real_Volume" => "float"
+            "Circulating_Marketcap" => "integer"
+            "Realized_Marketcap" => "integer"
+            "Marketcap_Dominance" => "float"
+        }
+        add_field => {
+            "Token" => "BTC"
+        }
+        remove_field => [ "host", "path", "message", "@version"]
+    }
+}
+
+
+output {
+   stdout { codec => json }
+   elasticsearch {
+       hosts => ["localhost:9200"]
+       index => "btc_historical"
+       user => "logstash_internal"
+       password => "x-pack-test-password"
+   }
+}
