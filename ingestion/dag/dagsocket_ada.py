@@ -10,14 +10,10 @@ from elasticsearch import Elasticsearch
 BASEDIR = os.path.abspath(os.path.dirname(__file__))
 load_dotenv(os.path.join(BASEDIR, '.env'))
 IP_ES = os.getenv("IP_ES")
-cc = "adausdt"
-socket = f"wss://stream.binance.com:9443/ws/{cc}@trade"
-
-es = Elasticsearch([IP_ES])
 
 default_args = {
     'owner': 'Mangouste',
-    'start_date': datetime(2021,12,15),
+    'start_date': datetime.utcnow(),
     "retries": 1,
     "retry_delay": timedelta(seconds=5)
 }
@@ -36,6 +32,8 @@ XYZ = DAG('websocket_ada', default_args=default_args)
 ####### Definition des Fonctions / Executions #######
 
 def on_message(ws, message):
+    es = Elasticsearch([IP_ES])
+    cc = "adausdt"
     json_message = json.loads(message)
     price_int = json_message['p']
     price = float(price_int)
@@ -46,11 +44,12 @@ def on_message(ws, message):
     'timestamp' : datetime.now()
     }
     es.index(index="test_websocket", document=doc)
+    socket = f"wss://stream.binance.com:9443/ws/{cc}@trade"
     ws = websocket.WebSocketApp(socket, on_message = on_message)
-    ws.run_forever()
+    ws.run()
 
 P1 = PythonOperator(
-    task_id='Query websocket',
+    task_id='queryyy_websocket',
     python_callable=on_message,
     dag=XYZ
 )
