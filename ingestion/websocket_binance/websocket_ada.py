@@ -1,3 +1,5 @@
+## Documentation Binance : https://binance-docs.github.io/apidocs/spot/en/#live-subscribing-unsubscribing-to-streams
+
 import websocket, json
 from json import loads
 from elasticsearch import Elasticsearch
