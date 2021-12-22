@@ -17,7 +17,7 @@ IP_ES = os.getenv("IP_ES")
 
 # Attribution des variables des channels de websockets et adresse IP ES
 
-cc = "adausdt"
+cc = "bnbusdt"
 
 socket = f"wss://stream.binance.com:9443/ws/{cc}@trade"
 
