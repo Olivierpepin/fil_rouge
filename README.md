@@ -1,4 +1,4 @@
-# Mise en place Infrasructure Cyptomonnaies (Version 0.1)
+# Mise en place Infrastructure Cyptomonnaies (Version 0.1)
 
 Le rapport de la version actuelle est disponible dans */etc/rapports*.<br><br><br>
 <img src="/etc/images/fil_rouge.png" width="693" height="400">
