@@ -49,6 +49,6 @@ def on_error(ws, error):
 
 ws = websocket.WebSocketApp(socket, on_message = on_message, on_error= on_error)
 
-# Connexion continu au websocket
+# Connexion continue au websocket
 
 ws.run_forever(ping_interval=50)
