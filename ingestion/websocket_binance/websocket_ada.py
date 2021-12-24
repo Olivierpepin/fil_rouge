@@ -23,7 +23,8 @@ socket = f"wss://stream.binance.com:9443/ws/{cc}@trade"
 
 es = Elasticsearch([IP_ES])
 
-# Fonction de récupération payloads websocket, creation d'un document avec selection element du payload, envoi a ES
+# Fonction de récupération message websocket, creation d'un document 
+# avec selection des elements du payload, envoi a ES
 
 def on_message(ws, message):
     json_message = json.loads(message)
@@ -48,6 +49,6 @@ def on_error(ws, error):
 
 ws = websocket.WebSocketApp(socket, on_message = on_message, on_error= on_error)
 
-# Connexion continu au websocket
+# Connexion continue au websocket
 
 ws.run_forever(ping_interval=50)
